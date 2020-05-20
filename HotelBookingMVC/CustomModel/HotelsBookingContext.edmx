@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoomId" Type="int" Nullable="false" />
+          <Property Name="FromDate" Type="datetime" Nullable="false" />
+          <Property Name="ToDate" Type="datetime" Nullable="false" />
+          <Property Name="IsCancelled" Type="bit" Nullable="false" />
+          <Property Name="TotalCost" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoomNo" Type="int" Nullable="false" />
+          <Property Name="IsACEquipped" Type="bit" Nullable="false" />
+          <Property Name="IsDisabled" Type="bit" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="RmType" Type="int" Nullable="false" />
+          <Property Name="NoOfBeds" Type="int" Nullable="false" />
+        </EntityType>
+        <Function Name="AddNewRoom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NewRoomNo" Type="int" Mode="In" />
+          <Parameter Name="NewIsACEquipped" Type="bit" Mode="In" />
+          <Parameter Name="NewIsDisabled" Type="bit" Mode="In" />
+          <Parameter Name="NewPrice" Type="int" Mode="In" />
+          <Parameter Name="NewRmType" Type="int" Mode="In" />
+          <Parameter Name="NewNoOfBeds" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CancelAnOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetOrderById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetQualifiedRooms" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FromTime" Type="datetime" Mode="In" />
+          <Parameter Name="ToTime" Type="datetime" Mode="In" />
+          <Parameter Name="HasAC" Type="bit" Mode="In" />
+          <Parameter Name="MinPrice" Type="int" Mode="In" />
+          <Parameter Name="MaxPrice" Type="int" Mode="In" />
+          <Parameter Name="RType" Type="int" Mode="In" />
+          <Parameter Name="BNo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetRoomById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetRooms" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetUserOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="ReserveRoom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+          <Parameter Name="RoomId" Type="int" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+          <Parameter Name="IsCancelled" Type="bit" Mode="In" />
+          <Parameter Name="TotalCost" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateExistingOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderId" Type="int" Mode="In" />
+          <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+          <Parameter Name="RoomId" Type="int" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+          <Parameter Name="IsCancelled" Type="bit" Mode="In" />
+          <Parameter Name="TotalCost" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateExistingRoom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RoomId" Type="int" Mode="In" />
+          <Parameter Name="NewRoomNo" Type="int" Mode="In" />
+          <Parameter Name="NewIsACEquipped" Type="bit" Mode="In" />
+          <Parameter Name="NewIsDisabled" Type="bit" Mode="In" />
+          <Parameter Name="NewPrice" Type="int" Mode="In" />
+          <Parameter Name="NewRmType" Type="int" Mode="In" />
+          <Parameter Name="NewNoOfBeds" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoomId" Type="Int32" Nullable="false" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsCancelled" Type="Boolean" Nullable="false" />
+          <Property Name="TotalCost" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="RoomNo" Type="Int32" Nullable="false" />
+          <Property Name="IsACEquipped" Type="Boolean" Nullable="false" />
+          <Property Name="IsDisabled" Type="Boolean" Nullable="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="RmType" Type="Int32" Nullable="false" />
+          <Property Name="NoOfBeds" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="HotelConnection" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="Rooms" EntityType="Self.Room" />
+          <FunctionImport Name="AddNewRoom">
+            <Parameter Name="NewRoomNo" Mode="In" Type="Int32" />
+            <Parameter Name="NewIsACEquipped" Mode="In" Type="Boolean" />
+            <Parameter Name="NewIsDisabled" Mode="In" Type="Boolean" />
+            <Parameter Name="NewPrice" Mode="In" Type="Int32" />
+            <Parameter Name="NewRmType" Mode="In" Type="Int32" />
+            <Parameter Name="NewNoOfBeds" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CancelAnOrder">
+          <Parameter Name="OrderId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetOrders" ReturnType="Collection(Model.GetOrders_Result)" />
+          <FunctionImport Name="GetQualifiedRooms" ReturnType="Collection(Model.GetQualifiedRooms_Result)">
+            <Parameter Name="FromTime" Mode="In" Type="DateTime" />
+            <Parameter Name="ToTime" Mode="In" Type="DateTime" />
+            <Parameter Name="HasAC" Mode="In" Type="Boolean" />
+            <Parameter Name="MinPrice" Mode="In" Type="Int32" />
+            <Parameter Name="MaxPrice" Mode="In" Type="Int32" />
+            <Parameter Name="RType" Mode="In" Type="Int32" />
+            <Parameter Name="BNo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetRoomById" ReturnType="Collection(Model.GetRoomById_Result)">
+          <Parameter Name="RId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetRooms" ReturnType="Collection(Model.GetRooms_Result)" />
+          <FunctionImport Name="GetUserOrders" ReturnType="Collection(Model.GetUserOrders_Result)">
+          <Parameter Name="UserId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ReserveRoom">
+            <Parameter Name="UserId" Mode="In" Type="String" />
+            <Parameter Name="RoomId" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="IsCancelled" Mode="In" Type="Boolean" />
+            <Parameter Name="TotalCost" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateExistingOrder">
+            <Parameter Name="OrderId" Mode="In" Type="Int32" />
+            <Parameter Name="UserId" Mode="In" Type="String" />
+            <Parameter Name="RoomId" Mode="In" Type="Int32" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="IsCancelled" Mode="In" Type="Boolean" />
+            <Parameter Name="TotalCost" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateExistingRoom">
+            <Parameter Name="RoomId" Mode="In" Type="Int32" />
+            <Parameter Name="NewRoomNo" Mode="In" Type="Int32" />
+            <Parameter Name="NewIsACEquipped" Mode="In" Type="Boolean" />
+            <Parameter Name="NewIsDisabled" Mode="In" Type="Boolean" />
+            <Parameter Name="NewPrice" Mode="In" Type="Int32" />
+            <Parameter Name="NewRmType" Mode="In" Type="Int32" />
+            <Parameter Name="NewNoOfBeds" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetOrderById" ReturnType="Collection(Model.GetOrderById_Result)">
+            <Parameter Name="OId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetOrders_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="UserId" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="RoomId" Nullable="false" />
+          <Property Type="DateTime" Name="FromDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="ToDate" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="IsCancelled" Nullable="false" />
+          <Property Type="Int32" Name="TotalCost" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetQualifiedRooms_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="RoomNo" Nullable="false" />
+          <Property Type="Boolean" Name="IsACEquipped" Nullable="false" />
+          <Property Type="Boolean" Name="IsDisabled" Nullable="false" />
+          <Property Type="Int32" Name="Price" Nullable="false" />
+          <Property Type="Int32" Name="RmType" Nullable="false" />
+          <Property Type="Int32" Name="NoOfBeds" Nullable="false" />
+          <Property Type="Int32" Name="RoomId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetRoomById_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="RoomNo" Nullable="false" />
+          <Property Type="Boolean" Name="IsACEquipped" Nullable="false" />
+          <Property Type="Boolean" Name="IsDisabled" Nullable="false" />
+          <Property Type="Int32" Name="Price" Nullable="false" />
+          <Property Type="Int32" Name="RmType" Nullable="false" />
+          <Property Type="Int32" Name="NoOfBeds" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetRooms_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="RoomNo" Nullable="false" />
+          <Property Type="Boolean" Name="IsACEquipped" Nullable="false" />
+          <Property Type="Boolean" Name="IsDisabled" Nullable="false" />
+          <Property Type="Int32" Name="Price" Nullable="false" />
+          <Property Type="Int32" Name="RmType" Nullable="false" />
+          <Property Type="Int32" Name="NoOfBeds" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetUserOrders_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="RoomId" Nullable="false" />
+          <Property Type="DateTime" Name="FromDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="ToDate" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="IsCancelled" Nullable="false" />
+          <Property Type="Int32" Name="TotalCost" Nullable="false" />
+          <Property Type="Int32" Name="Price" Nullable="false" />
+          <Property Type="Int32" Name="RoomNo" Nullable="false" />
+          <Property Type="Boolean" Name="IsACEquipped" Nullable="false" />
+          <Property Type="Int32" Name="RmType" Nullable="false" />
+          <Property Type="Int32" Name="NoOfBeds" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetOrderById_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="UserId" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="RoomId" Nullable="false" />
+          <Property Type="DateTime" Name="FromDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="ToDate" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="IsCancelled" Nullable="false" />
+          <Property Type="Int32" Name="TotalCost" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="HotelConnection">
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="Model.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="Model.Room">
+              <MappingFragment StoreEntitySet="Rooms">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+                <ScalarProperty Name="IsACEquipped" ColumnName="IsACEquipped" />
+                <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="RmType" ColumnName="RmType" />
+                <ScalarProperty Name="NoOfBeds" ColumnName="NoOfBeds" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddNewRoom" FunctionName="Model.Store.AddNewRoom" />
+          <FunctionImportMapping FunctionImportName="CancelAnOrder" FunctionName="Model.Store.CancelAnOrder" />
+          <FunctionImportMapping FunctionImportName="GetOrders" FunctionName="Model.Store.GetOrders">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetOrders_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetQualifiedRooms" FunctionName="Model.Store.GetQualifiedRooms">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetQualifiedRooms_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+                <ScalarProperty Name="IsACEquipped" ColumnName="IsACEquipped" />
+                <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="RmType" ColumnName="RmType" />
+                <ScalarProperty Name="NoOfBeds" ColumnName="NoOfBeds" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRoomById" FunctionName="Model.Store.GetRoomById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetRoomById_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+                <ScalarProperty Name="IsACEquipped" ColumnName="IsACEquipped" />
+                <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="RmType" ColumnName="RmType" />
+                <ScalarProperty Name="NoOfBeds" ColumnName="NoOfBeds" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRooms" FunctionName="Model.Store.GetRooms">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetRooms_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+                <ScalarProperty Name="IsACEquipped" ColumnName="IsACEquipped" />
+                <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="RmType" ColumnName="RmType" />
+                <ScalarProperty Name="NoOfBeds" ColumnName="NoOfBeds" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUserOrders" FunctionName="Model.Store.GetUserOrders">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetUserOrders_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+                <ScalarProperty Name="IsACEquipped" ColumnName="IsACEquipped" />
+                <ScalarProperty Name="RmType" ColumnName="RmType" />
+                <ScalarProperty Name="NoOfBeds" ColumnName="NoOfBeds" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ReserveRoom" FunctionName="Model.Store.ReserveRoom" />
+          <FunctionImportMapping FunctionImportName="UpdateExistingOrder" FunctionName="Model.Store.UpdateExistingOrder" />
+          <FunctionImportMapping FunctionImportName="UpdateExistingRoom" FunctionName="Model.Store.UpdateExistingRoom" />
+          <FunctionImportMapping FunctionImportName="GetOrderById" FunctionName="Model.Store.GetOrderById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetOrderById_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,140 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+
+input, select, textarea {
+    max-width: 280px;
+}
+
+.slider [type="checkbox"] {
+    display: none;
+}
+
+.slider .toggle-label {
+    margin-top: 1em;
+    display: block;
+    width: 40px;
+    height: 20px;
+    position: relative;
+    background: grey;
+    border-radius: 10px;
+    transition: background 0.2s ease;
+    cursor: pointer;
+    color: transparent;
+}
+
+.slider .toggle-label::before {
+    content: '';
+    display: block;
+    width: 50%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #d1d1d1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: transform 0.2s ease-in-out;
+}
+
+.slider [type="checkbox"]:checked~.toggle-label {
+    background: #337ab7;
+}
+
+.slider [type="checkbox"]:checked~.toggle-label::before {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+}
+
+.table tbody tr td {
+    vertical-align: middle;
+}
+
+.form-control-plaintext {
+    display: block;
+    width: 100%;
+    padding-top: .375rem;
+    padding-bottom: .375rem;
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: #212529;
+    background-color: transparent;
+    border: solid transparent;
+    border-width: 1px 0;
+}
+
+.panel-body label {
+    padding-top: .375rem;
+    padding-bottom: .375rem;
+    margin-bottom: 0;
+    line-height: 2;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+}
+
+/* .bootstrap-select>.btn {
+    background-image: none;
+} */
+
+.form-group .bootstrap-select {
+    margin-bottom: 0;
+    display: block;
+    max-width: 280px;
+}
+
+.pl-0 {
+    padding-left: 0 !important;
+}
+
+.form-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-center input {
+    min-width: 280px;
+}
+
+.id-title {
+    display: inline;
+    font-weight: bold;
+}
+
+.id-text {
+    display: inline;
+    line-height: 1.5;
+    font-size: 1.75rem;
+    font-style: italic;
+    padding-left: 1em;
+}
+
+.tooltip-inner {
+    text-align: left;
+}
+
+.label-row {
+    display: flex;
+    justify-content: space-between;
+}

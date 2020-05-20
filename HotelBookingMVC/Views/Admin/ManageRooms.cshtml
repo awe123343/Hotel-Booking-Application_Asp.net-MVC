@@ -1,0 +1,78 @@
+﻿@using HotelBookingMVC.Models
+@model IEnumerable<ManageRoomViewModel>
+
+@{
+    ViewBag.Title = "Manage Rooms";
+}
+
+<h2>@ViewBag.Title</h2>
+<p style="margin-bottom: 1em">
+    @Html.ActionLink("New Room", "AddNewRoom", "Admin", null, new { @class = "btn btn-default" })
+</p>
+
+<div class="table-responsive">
+    @if (Model == null || Model.ToList().Count == 0)
+    {
+        <p style="text-align: center; font-weight:bold;">No matched order!</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RoomNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsACEquipped)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsDisabled)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RmType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NoOfBeds)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsACEquipped)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsDisabled)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RmType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoOfBeds)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditRoom", "Admin", new { id = item.ID }, new { @class = "btn btn-primary btn-sm" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+</div>

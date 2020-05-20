@@ -1,0 +1,316 @@
+﻿@using HotelBookingMVC.Models
+@using HotelBookingMVC.Models.Enums
+@model BookRoomViewModel
+
+@{
+    ViewBag.Title = "Book A Room";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div id="beforeConfirm">
+    @using (Html.BeginForm("GetQualifiedRooms", "User", FormMethod.Post, new { role = "form" }))
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.LabelFor(m => m.FromDate, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.FromDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @onchange = "fDateChange();", @onKeyDown = "return false", type = "date" })
+                    @Html.ValidationMessageFor(m => m.FromDate, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(m => m.ToDate, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.ToDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @onchange = "tDateChange();", @onKeyDown = "return false", type = "date" })
+                    @Html.ValidationMessageFor(m => m.ToDate, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(m => m.MinPrice, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.MinPrice, new { @class = "form-control", @min = 0.ToString() })
+                    @Html.ValidationMessageFor(m => m.MinPrice, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(m => m.MaxPrice, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.MaxPrice, new { @class = "form-control", @min = 0.ToString() })
+                    @Html.ValidationMessageFor(m => m.MaxPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="margin-top: 1em">
+                <div class="col-sm-4">
+                    @Html.LabelFor(m => m.IsACEquipped, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.IsACEquipped, new List<SelectListItem>()
+                        {
+                            new SelectListItem() { Text = "Yes", Value = "True", Selected = false },
+                            new SelectListItem() { Text = "No", Value = "False", Selected = false }
+                        }, String.Empty, new { @class = "form-control selectpicker", title="Any" })
+                    @Html.ValidationMessageFor(m => m.IsACEquipped, String.Empty, new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.LabelFor(m => m.RmType, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.RmType, EnumHelper.GetSelectList(typeof(RoomType)), String.Empty, new { @class = "form-control selectpicker", title="Any" })
+                    @Html.ValidationMessageFor(m => m.RmType, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.LabelFor(m => m.NoOfBeds, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.NoOfBeds, EnumHelper.GetSelectList(typeof(BedNo)), String.Empty, new { @class = "form-control selectpicker", title="Any" })
+                    @Html.ValidationMessageFor(m => m.NoOfBeds, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="margin-top : 1em">
+                <div class="col-sm-4">
+                    <input type="submit" class="btn btn-primary" value="Search" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="table-responsive" style="margin-top: 2em">
+        @if (Model.Rooms == null)
+        {
+            <div></div>
+        }
+        else if (Model.Rooms.ToList().Count == 0)
+        {
+            <p style="text-align: center; font-weight:bold;">No qualified room found!</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rooms.FirstOrDefault().IsACEquipped)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rooms.FirstOrDefault().Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rooms.FirstOrDefault().TotalCost)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rooms.FirstOrDefault().RmType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rooms.FirstOrDefault().NoOfBeds)
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.Rooms)
+                {
+                    <tr id="@string.Format("tr{0}", item.ID)">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsACEquipped)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalCost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RmType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NoOfBeds)
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="showConfirm(@item.ID)">Reserve</button>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
+
+<div id="confirm">
+    @if (Model.Rooms != null && Model.Rooms.ToList().Count > 0)
+    {
+        foreach (var item in Model.Rooms)
+        {
+            using (Html.BeginForm("ConfirmInfo", "User", new { RoomId = item.ID, from = Model.FromDate, to = Model.ToDate, total = item.TotalCost }, FormMethod.Post, new { role = "form" }))
+            {
+                <div class="panel panel-default" id="@string.Format("panel{0}", item.ID)" style="display:none;">
+                    <div class="panel-heading">
+                        Reservation summary
+                    </div>
+                    <div class="panel-body list-group">
+                        <div class="form-group row list-group-item">
+                            <label class="col-sm-offset-4 col-sm-2 col-form-label">
+                                User
+                            </label>
+                            <div class="col-sm-6">
+                                <span class="form-control-plaintext">
+                                    @User.Identity.Name
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row list-group-item">
+                            <label class="col-sm-offset-4 col-sm-2 col-form-label">
+                                @Html.DisplayNameFor(model => model.FromDate)
+                            </label>
+                            <div class="col-sm-6">
+                                <span class="form-control-plaintext">
+                                    @* @Html.TextBoxFor(model => model.FromDate, "{0:MMM dd, yyyy}", new { @class = "form-control-plaintext", type="date-local", @readonly = "readonly" }) *@
+                                    @Html.DisplayFor(model => model.FromDate)
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row list-group-item">
+                            <label class="col-sm-offset-4 col-sm-2 col-form-label">
+                                @Html.DisplayNameFor(model => model.ToDate)
+                            </label>
+                            <div class="col-sm-6">
+                                <span class="form-control-plaintext">
+                                    @* @Html.TextBoxFor(model => model.ToDate, "{0:MMM dd, yyyy}", new { @class = "form-control-plaintext", type="date-local", @readonly = "readonly" }) *@
+                                    @Html.DisplayFor(model => model.ToDate)
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row list-group-item">
+                            <label class="col-sm-offset-4 col-sm-2 col-form-label">
+                                @Html.DisplayNameFor(model => model.Rooms.FirstOrDefault().RmType)
+                            </label>
+                            <div class="col-sm-6">
+                                <span class="form-control-plaintext">
+                                    @Html.TextBoxFor(modelItem => item.RmType, new { @class = "form-control-plaintext", @readonly = "readonly" })
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row list-group-item">
+                            <label class="col-sm-offset-4 col-sm-2 col-form-label">
+                                @Html.DisplayNameFor(model => model.Rooms.FirstOrDefault().NoOfBeds)
+                            </label>
+                            <div class="col-sm-6">
+                                <span class="form-control-plaintext">
+                                    @Html.TextBoxFor(modelItem => item.NoOfBeds, new { @class = "form-control-plaintext", @readonly = "readonly" })
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row list-group-item">
+                            <label class="col-sm-offset-4 col-sm-2 col-form-label">
+                                @Html.DisplayNameFor(model => model.Rooms.FirstOrDefault().IsACEquipped)
+                            </label>
+                            <div class="col-sm-6">
+                                <span class="form-control-plaintext">
+                                    @Html.TextBoxFor(modelItem => item.IsACEquipped, new { @class = "form-control-plaintext", @readonly = "readonly" })
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row list-group-item">
+                            <label class="col-sm-offset-4 col-sm-2 col-form-label">
+                                @Html.DisplayNameFor(model => model.Rooms.FirstOrDefault().Price)
+                            </label>
+                            <div class="col-sm-6">
+                                <span class="form-control-plaintext">
+                                    @Html.TextBoxFor(modelItem => item.Price, "{0:c}", new { @class = "form-control-plaintext", @readonly = "readonly" })
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row list-group-item">
+                            <label class="col-sm-offset-4 col-sm-2 col-form-label">
+                                @Html.DisplayNameFor(model => model.Rooms.FirstOrDefault().TotalCost)
+                            </label>
+                            <div class="col-sm-6">
+                                <span class="form-control-plaintext">
+                                    @Html.TextBoxFor(modelItem => item.TotalCost, "{0:c}", new { @class = "form-control-plaintext", @readonly = "readonly" })
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel-footer">
+                        <div class="flex-container">
+                            <button type="button" class="btn btn-default" style="margin-left: -5em;" onclick="hideConfirm(@item.ID)">Back</button>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 2em;">Confirm to order</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>
+
+
+<script>
+    let fDateText = document.getElementById("FromDate");
+    let tDateText = document.getElementById("ToDate");
+
+    window.onload = (event) => {
+        let now = new Date();
+        let offset = -1 * now.getTimezoneOffset() / 60;
+        now.setHours(now.getHours() + offset);
+        fDateText.min = now.toISOString().substring(0, 10);
+
+        let tmin = new Date(fDateText.value);
+        tmin.setDate(tmin.getDate() + 1);
+        tDateText.min = tmin.toISOString().substring(0, 10);
+    }
+
+    $(document).ready(function(){
+        $('.selectpicker').selectpicker();
+    });
+
+    function fDateChange() {
+        let fdate = new Date(fDateText.value);
+        let tdate = new Date(tDateText.value);
+
+        if (fDateText.value.length > 0) {
+            if (tdate <= fdate) {
+                let newtdate = new Date(fDateText.value);
+                newtdate.setDate(newtdate.getDate() + 1);
+                console.log("Change to date", newtdate.toISOString().substring(0, 10));
+                tDateText.value = newtdate.toISOString().substring(0, 10);
+                tDateText.min = newtdate.toISOString().substring(0, 10);
+            } else {
+                let mindate = fdate;
+                mindate.setDate(fdate.getDate() + 1);
+                tDateText.min = mindate.toISOString().substring(0, 10);
+            }
+        } else {
+            let today = new Date();
+            let offset = -1 * now.getTimezoneOffset() / 60;
+            today.setHours(today.getHours() + offset);
+            let tmr = new Date(today);
+            tmr.setDate(tmr.getDate() + 1);
+            tDateText.min = tmr.toISOString().substring(0, 10);
+        }
+    }
+
+    function tDateChange() {
+        let fdate = new Date(fDateText.value);
+        let tdate = new Date(tDateText.value);
+
+        if (tDateText.value.length > 0) {
+            if (fdate >= tdate) {
+                let newfdate = new Date(tDateText.value);
+                newfdate.setDate(newfdate.getDate() - 1);
+                console.log("Change from date", newfdate.toISOString().substring(0, 10));
+                fDateText.value = newfdate.toISOString().substring(0, 10);
+                fDateText.max = newfdate.toISOString().substring(0, 10);
+            } else {
+                let maxdate = tdate;
+                maxdate.setDate(tdate.getDate() - 1);
+                fDateText.max = maxdate.toISOString().substring(0, 10);
+            }
+        } else {
+            fDateText.max = "2050-01-01";
+        }
+    }
+
+    function showConfirm(index) {
+        document.getElementById("beforeConfirm").style.display = "none";
+        document.getElementById("panel" + index).style.display = "inherit";
+    }
+
+    function hideConfirm(index) {
+        document.getElementById("beforeConfirm").style.display = "inherit";
+        document.getElementById("panel" + index).style.display = "none";
+    }
+
+    // (function(){
+    //     $('.selectpicker').selectpicker();
+    // })();
+</script>
+

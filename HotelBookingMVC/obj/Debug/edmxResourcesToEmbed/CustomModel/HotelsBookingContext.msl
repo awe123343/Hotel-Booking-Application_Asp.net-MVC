@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="HotelConnection">
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="Model.Order">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+          <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rooms">
+      <EntityTypeMapping TypeName="Model.Room">
+        <MappingFragment StoreEntitySet="Rooms">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+          <ScalarProperty Name="IsACEquipped" ColumnName="IsACEquipped" />
+          <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="RmType" ColumnName="RmType" />
+          <ScalarProperty Name="NoOfBeds" ColumnName="NoOfBeds" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="AddNewRoom" FunctionName="Model.Store.AddNewRoom" />
+    <FunctionImportMapping FunctionImportName="CancelAnOrder" FunctionName="Model.Store.CancelAnOrder" />
+    <FunctionImportMapping FunctionImportName="GetOrders" FunctionName="Model.Store.GetOrders">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.GetOrders_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+          <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetQualifiedRooms" FunctionName="Model.Store.GetQualifiedRooms">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.GetQualifiedRooms_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+          <ScalarProperty Name="IsACEquipped" ColumnName="IsACEquipped" />
+          <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="RmType" ColumnName="RmType" />
+          <ScalarProperty Name="NoOfBeds" ColumnName="NoOfBeds" />
+          <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetRoomById" FunctionName="Model.Store.GetRoomById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.GetRoomById_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+          <ScalarProperty Name="IsACEquipped" ColumnName="IsACEquipped" />
+          <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="RmType" ColumnName="RmType" />
+          <ScalarProperty Name="NoOfBeds" ColumnName="NoOfBeds" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetRooms" FunctionName="Model.Store.GetRooms">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.GetRooms_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+          <ScalarProperty Name="IsACEquipped" ColumnName="IsACEquipped" />
+          <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="RmType" ColumnName="RmType" />
+          <ScalarProperty Name="NoOfBeds" ColumnName="NoOfBeds" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetUserOrders" FunctionName="Model.Store.GetUserOrders">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.GetUserOrders_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+          <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+          <ScalarProperty Name="IsACEquipped" ColumnName="IsACEquipped" />
+          <ScalarProperty Name="RmType" ColumnName="RmType" />
+          <ScalarProperty Name="NoOfBeds" ColumnName="NoOfBeds" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ReserveRoom" FunctionName="Model.Store.ReserveRoom" />
+    <FunctionImportMapping FunctionImportName="UpdateExistingOrder" FunctionName="Model.Store.UpdateExistingOrder" />
+    <FunctionImportMapping FunctionImportName="UpdateExistingRoom" FunctionName="Model.Store.UpdateExistingRoom" />
+    <FunctionImportMapping FunctionImportName="GetOrderById" FunctionName="Model.Store.GetOrderById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.GetOrderById_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+          <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

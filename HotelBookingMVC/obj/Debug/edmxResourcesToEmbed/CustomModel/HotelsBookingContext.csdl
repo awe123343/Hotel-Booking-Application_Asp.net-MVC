@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RoomId" Type="Int32" Nullable="false" />
+    <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsCancelled" Type="Boolean" Nullable="false" />
+    <Property Name="TotalCost" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Room">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="RoomNo" Type="Int32" Nullable="false" />
+    <Property Name="IsACEquipped" Type="Boolean" Nullable="false" />
+    <Property Name="IsDisabled" Type="Boolean" Nullable="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="RmType" Type="Int32" Nullable="false" />
+    <Property Name="NoOfBeds" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="HotelConnection" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Orders" EntityType="Self.Order" />
+    <EntitySet Name="Rooms" EntityType="Self.Room" />
+    <FunctionImport Name="AddNewRoom">
+      <Parameter Name="NewRoomNo" Mode="In" Type="Int32" />
+      <Parameter Name="NewIsACEquipped" Mode="In" Type="Boolean" />
+      <Parameter Name="NewIsDisabled" Mode="In" Type="Boolean" />
+      <Parameter Name="NewPrice" Mode="In" Type="Int32" />
+      <Parameter Name="NewRmType" Mode="In" Type="Int32" />
+      <Parameter Name="NewNoOfBeds" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="CancelAnOrder">
+      <Parameter Name="OrderId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetOrders" ReturnType="Collection(Model.GetOrders_Result)" />
+    <FunctionImport Name="GetQualifiedRooms" ReturnType="Collection(Model.GetQualifiedRooms_Result)">
+      <Parameter Name="FromTime" Mode="In" Type="DateTime" />
+      <Parameter Name="ToTime" Mode="In" Type="DateTime" />
+      <Parameter Name="HasAC" Mode="In" Type="Boolean" />
+      <Parameter Name="MinPrice" Mode="In" Type="Int32" />
+      <Parameter Name="MaxPrice" Mode="In" Type="Int32" />
+      <Parameter Name="RType" Mode="In" Type="Int32" />
+      <Parameter Name="BNo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetRoomById" ReturnType="Collection(Model.GetRoomById_Result)">
+      <Parameter Name="RId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetRooms" ReturnType="Collection(Model.GetRooms_Result)" />
+    <FunctionImport Name="GetUserOrders" ReturnType="Collection(Model.GetUserOrders_Result)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ReserveRoom">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="RoomId" Mode="In" Type="Int32" />
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+      <Parameter Name="IsCancelled" Mode="In" Type="Boolean" />
+      <Parameter Name="TotalCost" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateExistingOrder">
+      <Parameter Name="OrderId" Mode="In" Type="Int32" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="RoomId" Mode="In" Type="Int32" />
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+      <Parameter Name="IsCancelled" Mode="In" Type="Boolean" />
+      <Parameter Name="TotalCost" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateExistingRoom">
+      <Parameter Name="RoomId" Mode="In" Type="Int32" />
+      <Parameter Name="NewRoomNo" Mode="In" Type="Int32" />
+      <Parameter Name="NewIsACEquipped" Mode="In" Type="Boolean" />
+      <Parameter Name="NewIsDisabled" Mode="In" Type="Boolean" />
+      <Parameter Name="NewPrice" Mode="In" Type="Int32" />
+      <Parameter Name="NewRmType" Mode="In" Type="Int32" />
+      <Parameter Name="NewNoOfBeds" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetOrderById" ReturnType="Collection(Model.GetOrderById_Result)">
+      <Parameter Name="OId" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="GetOrders_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="UserId" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="RoomId" Nullable="false" />
+    <Property Type="DateTime" Name="FromDate" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="ToDate" Nullable="false" Precision="23" />
+    <Property Type="Boolean" Name="IsCancelled" Nullable="false" />
+    <Property Type="Int32" Name="TotalCost" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="GetQualifiedRooms_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="Int32" Name="RoomNo" Nullable="false" />
+    <Property Type="Boolean" Name="IsACEquipped" Nullable="false" />
+    <Property Type="Boolean" Name="IsDisabled" Nullable="false" />
+    <Property Type="Int32" Name="Price" Nullable="false" />
+    <Property Type="Int32" Name="RmType" Nullable="false" />
+    <Property Type="Int32" Name="NoOfBeds" Nullable="false" />
+    <Property Type="Int32" Name="RoomId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetRoomById_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="Int32" Name="RoomNo" Nullable="false" />
+    <Property Type="Boolean" Name="IsACEquipped" Nullable="false" />
+    <Property Type="Boolean" Name="IsDisabled" Nullable="false" />
+    <Property Type="Int32" Name="Price" Nullable="false" />
+    <Property Type="Int32" Name="RmType" Nullable="false" />
+    <Property Type="Int32" Name="NoOfBeds" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="GetRooms_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="Int32" Name="RoomNo" Nullable="false" />
+    <Property Type="Boolean" Name="IsACEquipped" Nullable="false" />
+    <Property Type="Boolean" Name="IsDisabled" Nullable="false" />
+    <Property Type="Int32" Name="Price" Nullable="false" />
+    <Property Type="Int32" Name="RmType" Nullable="false" />
+    <Property Type="Int32" Name="NoOfBeds" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="GetUserOrders_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="Int32" Name="RoomId" Nullable="false" />
+    <Property Type="DateTime" Name="FromDate" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="ToDate" Nullable="false" Precision="23" />
+    <Property Type="Boolean" Name="IsCancelled" Nullable="false" />
+    <Property Type="Int32" Name="TotalCost" Nullable="false" />
+    <Property Type="Int32" Name="Price" Nullable="false" />
+    <Property Type="Int32" Name="RoomNo" Nullable="false" />
+    <Property Type="Boolean" Name="IsACEquipped" Nullable="false" />
+    <Property Type="Int32" Name="RmType" Nullable="false" />
+    <Property Type="Int32" Name="NoOfBeds" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="GetOrderById_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="UserId" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="RoomId" Nullable="false" />
+    <Property Type="DateTime" Name="FromDate" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="ToDate" Nullable="false" Precision="23" />
+    <Property Type="Boolean" Name="IsCancelled" Nullable="false" />
+    <Property Type="Int32" Name="TotalCost" Nullable="false" />
+  </ComplexType>
+</Schema>

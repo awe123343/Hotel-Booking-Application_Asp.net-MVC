@@ -1,0 +1,53 @@
+﻿@using HotelBookingMVC.Models
+@model IEnumerable<ExtendedUser>
+
+@{
+    ViewBag.Title = "Manage Users";
+}
+
+<h2>@ViewBag.Title</h2>
+<p style="margin-bottom: 1em">
+    @Html.ActionLink("New User", "AddNewUser", "Admin", null, new { @class = "btn btn-default" })
+</p>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditUser", "Admin", new { id = item.ID }, new { @class = "btn btn-primary btn-sm" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

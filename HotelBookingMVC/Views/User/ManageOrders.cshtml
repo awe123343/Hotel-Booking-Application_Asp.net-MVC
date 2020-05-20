@@ -1,0 +1,207 @@
+﻿@using HotelBookingMVC.Models
+@model ManageOrderViewModel
+
+@{
+    ViewBag.Title = "Manage Orders - " + User.Identity.Name;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="table-responsive">
+    <h4>Current orders</h4>
+    @if (Model.FutureOrders == null || Model.FutureOrders.ToList().Count == 0)
+    {
+        <p style="text-align: center; font-weight:bold;">No matched order!</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FutureOrders.FirstOrDefault().ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FutureOrders.FirstOrDefault().RoomNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FutureOrders.FirstOrDefault().FromDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FutureOrders.FirstOrDefault().ToDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FutureOrders.FirstOrDefault().UnitPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FutureOrders.FirstOrDefault().TotalCost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FutureOrders.FirstOrDefault().IsCancelled)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.FutureOrders)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FromDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalCost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsCancelled)
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("CancelAnOrder", "User", new { OrderId = item.ID }, FormMethod.Post, null))
+                        {
+                            <input type="submit" class="btn btn-danger btn-sm" value="Cancel" />
+                        }
+                        @*@Html.ActionLink("Cancel", "CancelAnOrder", "User", new { id = item.ID }, null)*@
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+
+</div>
+
+<div class="table-responsive" style="margin-top: 2em">
+    <h4>Past/Ongoing Orders</h4>
+    @if (Model.PastOrders == null || Model.PastOrders.ToList().Count == 0)
+    {
+        <p style="text-align: center; font-weight:bold;">No matched order!</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PastOrders.FirstOrDefault().ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PastOrders.FirstOrDefault().RoomNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PastOrders.FirstOrDefault().FromDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PastOrders.FirstOrDefault().ToDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PastOrders.FirstOrDefault().UnitPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PastOrders.FirstOrDefault().TotalCost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PastOrders.FirstOrDefault().IsCancelled)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.PastOrders)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FromDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalCost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsCancelled)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+
+
+<div class="table-responsive" style="margin-top: 2em">
+    <h4>Cancelled Orders</h4>
+    @if (Model.CancelledOrders == null || Model.CancelledOrders.ToList().Count == 0)
+    {
+        <p style="text-align: center; font-weight:bold;">No matched order!</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CancelledOrders.FirstOrDefault().ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CancelledOrders.FirstOrDefault().RoomNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CancelledOrders.FirstOrDefault().FromDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CancelledOrders.FirstOrDefault().ToDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CancelledOrders.FirstOrDefault().UnitPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CancelledOrders.FirstOrDefault().TotalCost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CancelledOrders.FirstOrDefault().IsCancelled)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.CancelledOrders)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FromDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalCost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsCancelled)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>

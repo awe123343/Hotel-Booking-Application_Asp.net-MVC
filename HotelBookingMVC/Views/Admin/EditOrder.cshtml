@@ -1,0 +1,113 @@
+﻿@using HotelBookingMVC.Models.Enums
+@using HotelBookingMVC.Models
+@model EditOrderViewModel
+
+@{
+    ViewBag.Title = "Edit Order";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="form-center">
+    @using (Html.BeginForm("EditOrder", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            <h4 class="id-title">Order ID: </h4>
+            @Html.TextBoxFor(m => m.ID, new { @class = "form-control-plaintext id-text", @readonly = "readonly" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserId, new { @class = "control-label" })
+            @Html.DropDownListFor(m => m.UserId, null, null, new { @class = "form-control selectpicker", title="Any" })
+            @Html.ValidationMessageFor(m => m.UserId, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.RoomId, new { @class = "control-label" })
+            @Html.DropDownListFor(m => m.RoomId, null, null, new { @class = "form-control selectpicker", title="Any" })
+            @Html.ValidationMessageFor(m => m.RoomId, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.FromDate, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.FromDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @onchange = "fDateChange();", @onKeyDown = "return false", type = "date" })
+            @Html.ValidationMessageFor(m => m.FromDate, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ToDate, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.ToDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @onchange = "tDateChange();", @onKeyDown = "return false", type = "date" })
+            @Html.ValidationMessageFor(m => m.ToDate, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TotalCost, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.TotalCost, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TotalCost, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.IsCancelled, new { @class = "control-label" })
+            <div class="slider">
+                @Html.CheckBoxFor(m => m.IsCancelled, new { @class = "toggle-pill" })
+                @Html.LabelFor(m => m.IsCancelled, new { @class = "toggle-label" })
+            </div>
+            @Html.ValidationMessageFor(m => m.IsCancelled, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group" style="margin-left:4em">
+            @Html.ActionLink("Cancel", "ManageOrders", "Admin", null, new { @class = "btn btn-default" })
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    }
+</div>
+
+<script>
+    let fDateText = document.getElementById("FromDate");
+    let tDateText = document.getElementById("ToDate");
+
+    window.onload = (event) => {
+        let fMaxDay = new Date(tDateText.value);
+        fMaxDay.setDate(fMaxDay.getDate() - 1);
+        fDateText.max = fMaxDay.toISOString().substring(0, 10);
+        let tMinDay = new Date(fDateText.value);
+        tMinDay.setDate(tMinDay.getDate() + 1);
+        tDateText.min = tMinDay.toISOString().substring(0, 10);
+    }
+
+    function fDateChange() {
+        let fdate = new Date(fDateText.value);
+        let tdate = new Date(tDateText.value);
+
+        if (fDateText.value.length > 0) {
+            if (tdate <= fdate) {
+                let newtdate = new Date(fDateText.value);
+                newtdate.setDate(newtdate.getDate() + 1);
+                console.log("Change to date", newtdate.toISOString().substring(0, 10));
+                tDateText.value = newtdate.toISOString().substring(0, 10);
+                tDateText.min = newtdate.toISOString().substring(0, 10);
+            } else {
+                let mindate = fdate;
+                mindate.setDate(fdate.getDate() + 1);
+                tDateText.min = mindate.toISOString().substring(0, 10);
+            }
+        } else {
+            tDateText.min = "1900-01-01";
+        }
+    }
+
+    function tDateChange() {
+        let fdate = new Date(fDateText.value);
+        let tdate = new Date(tDateText.value);
+
+        if (tDateText.value.length > 0) {
+            if (fdate >= tdate) {
+                let newfdate = new Date(tDateText.value);
+                newfdate.setDate(newfdate.getDate() - 1);
+                console.log("Change from date", newfdate.toISOString().substring(0, 10));
+                fDateText.value = newfdate.toISOString().substring(0, 10);
+                fDateText.max = newfdate.toISOString().substring(0, 10);
+            } else {
+                let maxdate = tdate;
+                maxdate.setDate(tdate.getDate() - 1);
+                fDateText.max = maxdate.toISOString().substring(0, 10);
+            }
+        } else {
+            fDateText.max = "2050-01-01";
+        }
+    }
+</script>

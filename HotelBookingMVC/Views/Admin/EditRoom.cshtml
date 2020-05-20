@@ -1,0 +1,63 @@
+﻿@using HotelBookingMVC.Models.Enums
+@using HotelBookingMVC.Models
+@model EditRoomViewModel
+
+@{
+    ViewBag.Title = "Edit Room";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="form-center">
+    @using (Html.BeginForm("EditRoom", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            <h4 class="id-title">Room ID: </h4>
+            @Html.TextBoxFor(m => m.ID, new { @class = "form-control-plaintext id-text", @readonly = "readonly" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.RoomNo, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.RoomNo, new { @class = "form-control", @type = "number" })
+            @Html.ValidationMessageFor(m => m.RoomNo, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Price, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.RmType, new { @class = "control-label" })
+            @Html.DropDownListFor(m => m.RmType, new SelectList(Enum.GetValues(typeof(RoomType))), new { @class = "form-control selectpicker", title="Any" })
+            @*@Html.EnumDropDownListFor(m => m.RmType, new { @class = "form-control" })*@
+            @Html.ValidationMessageFor(m => m.RmType, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.NoOfBeds, new { @class = "control-label" })
+            @Html.DropDownListFor(m => m.NoOfBeds, new SelectList(Enum.GetValues(typeof(BedNo))), new { @class = "form-control selectpicker", title="Any" })
+            @Html.ValidationMessageFor(m => m.NoOfBeds, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group label-row" style="padding-right: 5em;">
+            <div>
+                @Html.LabelFor(m => m.IsACEquipped, new { @class = "control-label" })
+                <div class="slider">
+                    @Html.CheckBoxFor(m => m.IsACEquipped, new { @class = "toggle-pill" })
+                    @Html.LabelFor(m => m.IsACEquipped, new { @class = "toggle-label" })
+                </div>
+                @Html.ValidationMessageFor(m => m.IsACEquipped, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(m => m.IsDisabled, new { @class = "control-label" })
+                <div class="slider">
+                    @Html.CheckBoxFor(m => m.IsDisabled, new { @class = "toggle-pill" })
+                    @Html.LabelFor(m => m.IsDisabled, new { @class = "toggle-label" })
+                </div>
+                @Html.ValidationMessageFor(m => m.IsDisabled, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" style="margin-left:4em">
+            @Html.ActionLink("Cancel", "ManageRooms", "Admin", null, new { @class = "btn btn-default" })
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    }
+</div>
